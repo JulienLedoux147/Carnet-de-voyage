@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "TP 1 du cours 420-3D2-MA APPLICATIONS WEB 1 groupe 00001",
   "main": "main.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon main.js",
+    "start": "node main.js",
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback",
+    "db:status": "knex migrate:status",
+    "api:check": "node scripts/verifier-rest-countries.js"
   },
   "repository": {
     "type": "git",
@@ -27,5 +33,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "allowScripts": {
+    "sqlite3@6.0.1": true
   }
 }

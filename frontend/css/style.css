@@ -1,0 +1,171 @@
+html {
+  background-color: #14deb9;
+}
+
+body {
+  min-height: 100vh;
+  color: #172b27;
+  background:
+    radial-gradient(circle at top left, rgb(255 255 255 / 55%), transparent 38rem),
+    linear-gradient(135deg, #dcece9 0%, #e8f0df 52%, #f3e4d2 100%);
+  background-attachment: fixed;
+}
+
+.title,
+.content h1,
+.content h2 {
+  color: #101817 !important;
+}
+
+.subtitle,
+.content p,
+.label {
+  color: #304b45 !important;
+}
+
+.navbar {
+  background-color: rgb(255 255 255 / 90%);
+  box-shadow: 0 0.2rem 1rem rgb(23 58 50 / 12%);
+}
+
+.navbar-item,
+.navbar-item strong {
+  color: #183b34;
+}
+
+.navbar-item.is-active {
+  color: #0b6655;
+  background-color: #dcefe9;
+}
+
+.box,
+.table {
+  background-color: rgb(255 255 255 / 92%);
+  box-shadow: 0 0.5rem 1.5rem rgb(23 58 50 / 10%);
+}
+
+.table td,
+.table th {
+  color: #172b27;
+  border-color: #cbded9;
+}
+
+.table thead th {
+  color: #173f36;
+  background-color: #dcefe9;
+}
+
+.button.is-link {
+  color: #fff;
+  background-color: #176b5b;
+}
+
+.button.is-link:hover,
+.button.is-link:focus {
+  color: #fff;
+  background-color: #0f5548;
+}
+
+.app-main {
+  min-height: calc(100vh - 12rem);
+}
+
+.country-flag {
+  width: 4rem;
+  height: 2.75rem;
+  object-fit: cover;
+  border: 1px solid #dbdbdb;
+}
+
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.form-card {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.notification ul {
+  margin-top: 0.5rem;
+  margin-left: 1.25rem;
+  list-style: disc;
+}
+
+.country-sheet {
+  max-width: 58rem;
+}
+
+.country-flag-large {
+  width: 8rem;
+  height: 5.5rem;
+}
+
+.country-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.country-details > div {
+  padding: 1rem;
+  background-color: #edf6f3;
+  border-radius: 0.5rem;
+}
+
+.country-details dt {
+  margin-bottom: 0.25rem;
+  color: #42665e;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.country-details dd {
+  color: #172b27;
+  font-size: 1.05rem;
+}
+
+.country-comment {
+  color: #263d38;
+  white-space: pre-line;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  background-color: rgb(255 255 255 / 92%);
+  border-left: 0.35rem solid #176b5b;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgb(23 58 50 / 10%);
+}
+
+.stat-label {
+  margin-bottom: 0.5rem;
+  color: #42665e;
+  font-weight: 700;
+}
+
+.stat-value {
+  color: #101817;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.stat-highlight {
+  color: #176b5b;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+.stat-highlight span {
+  color: #42665e;
+  font-size: 1rem;
+  font-weight: 600;
+}

@@ -15,11 +15,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
+// Vues HTML générées par Express avec EJS.
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // pour formulaires HTML
-//indique à Express que le dossier frontend contient les fichiers statiques accessibles aux visiteurs.
-app.use(express.static(path.join(__dirname, "frontend")));
+// Le dossier frontend contient uniquement les fichiers statiques (CSS et JavaScript).
+// index: false garantit que GET / passe bien par la route du carnet.
+app.use(express.static(path.join(__dirname, "frontend"), { index: false }));
 
 // Routes
 app.use("/", indexRoutes);
@@ -28,13 +33,19 @@ app.use("/statistiques", statsRoutes);
 
 //404
 app.use((req, res) => {
-  res.status(404).send("Page introuvable");
+  res.status(404).render("erreur", {
+    titre: "Page introuvable",
+    message: "La page demandée n’existe pas.",
+  });
 });
 
 // gestion des erreurs
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send("Erreur interne du serveur");
+  res.status(500).render("erreur", {
+    titre: "Erreur interne",
+    message: "Une erreur inattendue est survenue.",
+  });
 });
 
 export default app; // c'est main qui va lancer le serveur

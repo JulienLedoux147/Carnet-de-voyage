@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= titre %> | Carnet de voyage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <%- include("partials/navbar", { pageActive: "statistiques" }) %>
+
+    <main class="section app-main">
+      <div class="container">
+        <h1 class="title"><%= titre %></h1>
+        <p class="subtitle">Un aperçu de vos voyages et de vos projets.</p>
+
+        <% if (resume.total === 0) { %>
+          <section class="box empty-state" aria-labelledby="statistiques-vides">
+            <h2 class="title is-4" id="statistiques-vides">Le carnet est vide</h2>
+            <p class="mb-4">Ajoutez un premier pays pour afficher des statistiques.</p>
+            <a class="button is-link" href="/pays/nouveau">Ajouter un pays</a>
+          </section>
+        <% } else { %>
+          <section class="stats-grid mb-6" aria-label="Résumé du carnet">
+            <article class="stat-card">
+              <p class="stat-label">Pays dans le carnet</p>
+              <p class="stat-value"><%= resume.total %></p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">Pays visités</p>
+              <p class="stat-value"><%= resume.visites %></p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">Pays à visiter</p>
+              <p class="stat-value"><%= resume.aVisiter %></p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">Note moyenne</p>
+              <p class="stat-value">
+                <%= resume.noteMoyenne === null ? "—" : `${resume.noteMoyenne.toFixed(1)}/5` %>
+              </p>
+            </article>
+          </section>
+
+          <section class="box mb-6" aria-labelledby="population-visitee">
+            <h2 class="title is-4" id="population-visitee">Population des pays visités</h2>
+            <p class="stat-highlight">
+              <%= resume.populationVisitee.toLocaleString("fr-CA") %>
+              <span>personnes</span>
+            </p>
+            <p class="help">Somme des populations officielles enregistrées dans le carnet.</p>
+          </section>
+
+          <section class="box" aria-labelledby="repartition-regions">
+            <h2 class="title is-4" id="repartition-regions">Répartition par région</h2>
+
+            <div class="table-container">
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Région</th>
+                    <th>Nombre de pays</th>
+                    <th>Part du carnet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (const region of regions) { %>
+                    <tr>
+                      <td><%= region.nom %></td>
+                      <td><%= region.nombre %></td>
+                      <td>
+                        <progress
+                          class="progress is-link mb-1"
+                          value="<%= region.nombre %>"
+                          max="<%= resume.total %>"
+                        ><%= region.pourcentage %>%</progress>
+                        <span class="is-size-7"><%= region.pourcentage %>%</span>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        <% } %>
+      </div>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+  </body>
+</html>

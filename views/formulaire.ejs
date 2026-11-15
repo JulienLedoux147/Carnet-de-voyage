@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= titre %> | Carnet de voyage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <%- include("partials/navbar", { pageActive: mode === "ajouter" ? "ajouter" : "" }) %>
+    <main class="section app-main">
+      <div class="container">
+        <div class="form-card box">
+          <h1 class="title"><%= titre %></h1>
+          <p class="subtitle is-6">Les champs marqués d’un astérisque sont obligatoires.</p>
+
+          <% if (avertissementApi) { %>
+            <div class="notification is-warning" role="status">
+              <%= avertissementApi %>
+            </div>
+          <% } %>
+
+          <% if (erreurs.length > 0) { %>
+            <div class="notification is-danger" role="alert" aria-labelledby="titre-erreurs">
+              <p class="has-text-weight-bold" id="titre-erreurs">Corrigez les erreurs suivantes :</p>
+              <ul>
+                <% for (const erreur of erreurs) { %>
+                  <li><%= erreur %></li>
+                <% } %>
+              </ul>
+            </div>
+          <% } %>
+
+          <form method="post" action="<%= mode === 'ajouter' ? '/pays' : `/pays/${pays.id}` %>">
+            <div class="field">
+              <label class="label" for="code_cca3">Pays <span aria-hidden="true">*</span></label>
+
+              <% if (paysDisponibles.length > 0 && mode === "ajouter") { %>
+                <div class="control select is-fullwidth">
+                  <select id="code_cca3" name="code_cca3" required>
+                    <option value="">Choisissez un pays</option>
+                    <% for (const option of paysDisponibles) { %>
+                      <option
+                        value="<%= option.code_cca3 %>"
+                        data-nom="<%= option.nom %>"
+                        <%= pays.code_cca3 === option.code_cca3 ? "selected" : "" %>
+                      ><%= option.nom %> (<%= option.code_cca3 %>)</option>
+                    <% } %>
+                  </select>
+                </div>
+                <p class="help">La liste provient de REST Countries.</p>
+              <% } else { %>
+                <div class="control">
+                  <input
+                    class="input"
+                    id="code_cca3"
+                    name="code_cca3"
+                    type="text"
+                    value="<%= pays.code_cca3 || '' %>"
+                    minlength="3"
+                    maxlength="3"
+                    pattern="[A-Za-z]{3}"
+                    autocomplete="off"
+                    <%= mode === "modifier" ? "readonly" : "" %>
+                    required
+                  >
+                </div>
+                <p class="help">Code ISO composé de trois lettres, par exemple CAN.</p>
+              <% } %>
+            </div>
+
+            <div class="field">
+              <label class="label" for="nom">Nom du pays <span aria-hidden="true">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="nom"
+                  name="nom"
+                  type="text"
+                  value="<%= pays.nom || '' %>"
+                  maxlength="255"
+                  <%= mode === "modifier" ? "readonly" : "" %>
+                  required
+                >
+              </div>
+              <% if (mode === "modifier") { %>
+                <p class="help">Le pays et son code officiel ne peuvent pas être modifiés.</p>
+              <% } else if (paysDisponibles.length > 0) { %>
+                <p class="help">Le nom est rempli automatiquement après le choix du pays.</p>
+              <% } %>
+            </div>
+
+            <div class="field">
+              <label class="label" for="statut">Statut <span aria-hidden="true">*</span></label>
+              <div class="control select is-fullwidth">
+                <select id="statut" name="statut" required>
+                  <option value="">Choisissez un statut</option>
+                  <option value="visite" <%= pays.statut === "visite" ? "selected" : "" %>>Visité</option>
+                  <option value="a_visiter" <%= pays.statut === "a_visiter" ? "selected" : "" %>>À visiter</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column">
+                <div class="field">
+                  <label class="label" for="date_visite">Date de visite</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      id="date_visite"
+                      name="date_visite"
+                      type="date"
+                      value="<%= pays.date_visite || '' %>"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="field">
+                  <label class="label" for="note">Note sur 5</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      id="note"
+                      name="note"
+                      type="number"
+                      value="<%= pays.note || '' %>"
+                      min="1"
+                      max="5"
+                      step="1"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="commentaire">Commentaire</label>
+              <div class="control">
+                <textarea
+                  class="textarea"
+                  id="commentaire"
+                  name="commentaire"
+                  maxlength="2000"
+                  rows="5"
+                ><%= pays.commentaire || '' %></textarea>
+              </div>
+              <p class="help">Maximum 2000 caractères.</p>
+            </div>
+
+            <div class="field is-grouped mt-5">
+              <div class="control">
+                <button class="button is-link" type="submit">
+                  <%= mode === "ajouter" ? "Ajouter au carnet" : "Enregistrer" %>
+                </button>
+              </div>
+              <div class="control">
+                <a class="button is-light" href="<%= mode === 'modifier' ? `/pays/${pays.id}` : '/' %>">Annuler</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/formulaire.js"></script>
+  </body>
+</html>
