@@ -26,6 +26,7 @@ const configurationSQLite = {
   },
 };
 
+//export la config crée dans onfigurationSQLite()
 export default {
   development: configurationSQLite,
   test: {

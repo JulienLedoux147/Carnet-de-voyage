@@ -39,22 +39,16 @@ pas.
 npm install
 Copy-Item .env.example .env
 npm run db:migrate
+```
+Pour lancer l'app:
+```powershell
+node main.js
+```
+ou
+```powershell
 npm run dev
 ```
-
 Ouvrez ensuite `http://localhost:3000`.
-
-## Variables d'environnement
-
-Le fichier `.env` est local et ne doit jamais être ajouté à Git.
-
-| Variable | Utilité | Valeur par défaut |
-| --- | --- | --- |
-| `PORT` | Port du serveur Express | `3000` |
-| `NODE_ENV` | Environnement d'exécution | `development` |
-| `DATABASE_FILE` | Chemin de la base SQLite | `./data/carnet.sqlite3` |
-| `REST_COUNTRIES_API_URL` | Adresse de REST Countries | API v5 officielle |
-| `REST_COUNTRIES_API_KEY` | Clé d'authentification | Aucune |
 
 ## Configuration de REST Countries
 
@@ -94,64 +88,3 @@ npm run db:status
 npm run db:migrate
 npm run db:rollback
 ```
-
-## Scripts npm
-
-| Commande | Description |
-| --- | --- |
-| `npm run dev` | Lance le serveur avec rechargement automatique |
-| `npm start` | Lance le serveur normalement |
-| `npm run db:migrate` | Applique les migrations Knex |
-| `npm run db:rollback` | Annule la dernière migration |
-| `npm run db:status` | Affiche l'état des migrations |
-| `npm run api:check` | Vérifie la clé et la connexion REST Countries |
-
-## Organisation du projet
-
-```text
-frontend/          CSS et JavaScript exécutés dans le navigateur
-migrations/        Création et évolution du schéma SQLite
-scripts/           Commandes de vérification manuelles
-src/db/            Connexion Knex
-src/routes/        Routes Express
-src/services/      Communication avec REST Countries
-src/validation/    Validation des données du carnet
-views/             Pages EJS et composants partagés
-knexfile.js        Configuration de Knex
-main.js            Démarrage et arrêt du serveur
-server.js          Configuration de l'application Express
-```
-
-## Trajet d'une requête
-
-Pour `GET /pays/:id`, Express sélectionne la route correspondante. La route lit
-d'abord le pays avec Knex, tente ensuite de rafraîchir ses données auprès de
-REST Countries, puis transmet le résultat à `views/fiche.ejs`. Si l'appel
-externe échoue, la route transmet les données SQLite avec un avertissement.
-
-## Répartition du travail
-
-À compléter par l'équipe avant la remise :
-
-| Membre | Responsabilités principales |
-| --- | --- |
-| Membre 1 | À compléter |
-| Membre 2 | À compléter |
-| Membre 3, si applicable | À compléter |
-
-## Options d'approfondissement
-
-Chaque membre doit déclarer deux options différentes, dont au moins une option
-avancée.
-
-| Membre | Option 1 | Option 2 |
-| --- | --- | --- |
-| Membre 1 | À compléter | À compléter |
-| Membre 2 | À compléter | À compléter |
-| Membre 3, si applicable | À compléter | À compléter |
-
-## Remise
-
-L'archive finale doit contenir le code, ce README, les journaux d'utilisation
-de l'IA, les fiches d'apprentissage et le support de présentation. Elle ne doit
-contenir ni `node_modules`, ni `.env`, ni la base SQLite locale.

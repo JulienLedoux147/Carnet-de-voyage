@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 async function demarrer() {
   try {
+    //ouvrir la connextion de connexion.js
     await db.raw("SELECT 1");
 
     const serveur = app.listen(PORT, () => {

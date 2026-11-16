@@ -1,3 +1,5 @@
+// C'est ici que les tables et le reste de la db est crée dans carnet.sqlite3 quand on fait "npm run db:migrate"
+
 export async function up(knex) {
   await knex.schema.createTable("pays", (table) => {
     table.increments("id").primary();
