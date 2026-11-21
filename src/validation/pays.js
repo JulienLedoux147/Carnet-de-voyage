@@ -9,6 +9,11 @@ export function normaliserSaisiePays(body = {}) {
   };
 }
 
+
+/*
+remplit un tableau erreurs (code de 3 lettres, statut valide, date réelle, note entière de 1 à 5, longueurs maximales).
+*/
+
 export function validerSaisiePays(pays) {
   const erreurs = [];
 

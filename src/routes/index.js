@@ -41,6 +41,7 @@ router.get("/", async (req, res, next) => {
     const pays = await requete;
 
     //res.render(vue, données) --> pour le ejs
+    //renvoi le ejs au navigateur
     res.render("index", {
       titre: "Mon carnet de voyage",
       pays,

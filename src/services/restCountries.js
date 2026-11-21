@@ -54,6 +54,9 @@ function nomCapitale(capitales = []) {
   return capitalePrincipale?.name ?? capitales[0]?.name ?? null;
 }
 
+/*
+nettoie tout : trim(), code en majuscules, tout converti en String.
+*/
 function normaliserPays(pays) {
   return {
     code_cca3: pays?.codes?.alpha_3 ?? "",
@@ -65,6 +68,11 @@ function normaliserPays(pays) {
   };
 }
 
+/*
+interroge REST Countries par pages de 100 pays, avec la clé API et un délai maximum de 5 s.
+Elle trie le résultat et le garde en mémoire pendant 1 heure (cacheListe), 
+donc l’API n’est appelée qu’une fois par heure.
+*/
 export async function listerPaysDisponibles() {
   if (cacheListe && Date.now() < cacheExpireLe) {
     return cacheListe;

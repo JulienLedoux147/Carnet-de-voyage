@@ -14,6 +14,7 @@ const router = Router();
 async function contexteApi() {
   try {
     return {
+      // appelle listerPaysDisponibles() dans services/restCountries.js
       paysDisponibles: await listerPaysDisponibles(),
       avertissementApi: null,
     };
@@ -36,9 +37,11 @@ async function afficherFormulaire(res, {
 } = {}) {
   const api =
     mode === "ajouter"
+      // appelle conextApi()
       ? await contexteApi()
       : { paysDisponibles: [], avertissementApi: null };
 
+  //revoi formulaire.ejs au navigateur
   return res.status(statutHttp).render("formulaire", {
     titre,
     mode,
@@ -104,6 +107,7 @@ router.post("/", async (req, res, next) => {
       });
     }
 
+    // inserer le pay dans la db
     const [id] = await db("pays").insert({
       code_cca3: donneesOfficielles?.code_cca3 ?? saisie.code_cca3,
       nom,
@@ -166,6 +170,7 @@ router.get("/:id", async (req, res, next) => {
     }
 
     //res.render(vue, données) --> pour le ejs
+    //renvoi le ejs au navigateur
     return res.render("fiche", {
       titre: pays.nom,
       pays,

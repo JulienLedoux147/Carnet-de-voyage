@@ -56,6 +56,7 @@ router.get("/", async (req, res, next) => {
     }));
 
     //res.render(vue, données) --> pour le ejs
+    //renvoi le ejs au navigateur
     return res.render("statistiques", {
       titre: "Statistiques du carnet",
       resume,
