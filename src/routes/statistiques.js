@@ -55,6 +55,7 @@ router.get("/", async (req, res, next) => {
           : Math.round((Number(region.nombre) / resume.total) * 100),
     }));
 
+    //res.render(vue, données) --> pour le ejs
     return res.render("statistiques", {
       titre: "Statistiques du carnet",
       resume,

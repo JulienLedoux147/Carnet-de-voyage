@@ -33,6 +33,8 @@ app.use("/statistiques", statsRoutes);
 
 //404
 app.use((req, res) => {
+  
+  //res.render(vue, données) --> pour le ejs
   res.status(404).render("erreur", {
     titre: "Page introuvable",
     message: "La page demandée n’existe pas.",
@@ -42,6 +44,8 @@ app.use((req, res) => {
 // gestion des erreurs
 app.use((err, req, res, next) => {
   console.error(err);
+
+  //res.render(vue, données) --> pour le ejs
   res.status(500).render("erreur", {
     titre: "Erreur interne",
     message: "Une erreur inattendue est survenue.",

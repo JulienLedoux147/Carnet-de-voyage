@@ -165,6 +165,7 @@ router.get("/:id", async (req, res, next) => {
         "REST Countries est indisponible. Les dernières données enregistrées sont affichées.";
     }
 
+    //res.render(vue, données) --> pour le ejs
     return res.render("fiche", {
       titre: pays.nom,
       pays,
