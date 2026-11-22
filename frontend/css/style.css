@@ -1,0 +1,253 @@
+:root {
+  /* Couleur principale (teal profond) */
+  --couleur-primaire: #0f766e;
+  --couleur-primaire-fonce: #115e59;
+  --couleur-primaire-claire: #d5eeea;
+  --couleur-primaire-texte: #0b5c56;
+
+  /* Accent chaud (sable / ambre), utilisé en décoration */
+  --couleur-accent: #d98a2b;
+
+  /* Statuts */
+  --couleur-succes-fond: #d4f1e0;
+  --couleur-succes-texte: #14532d;
+  --couleur-info-fond: #dbeafe;
+  --couleur-info-texte: #1e3a8a;
+
+  /* Textes */
+  --couleur-titre: #0b1f1c;
+  --couleur-texte: #16312d;
+  --couleur-texte-doux: #3a5a54;
+  --couleur-texte-discret: #4a6862;
+  --couleur-sur-primaire: #ffffff;
+
+  /* Fonds et surfaces */
+  --couleur-fond-html: #d9ece8;
+  --couleur-fond-1: #e3f1ee;
+  --couleur-fond-2: #eef3e6;
+  --couleur-fond-3: #f8ebdc;
+  --couleur-halo: rgb(255 255 255 / 55%);
+  --couleur-surface: rgb(255 255 255 / 94%);
+  --couleur-surface-douce: #eef7f5;
+
+  /* Bordures et ombres */
+  --couleur-bordure: #c5ddd8;
+  --couleur-bordure-image: #d4dedb;
+  --couleur-ombre: rgb(15 70 62 / 12%);
+
+  /* Formes et espacements */
+  --rayon-petit: 0.5rem;
+  --ombre-douce: 0 0.2rem 1rem var(--couleur-ombre);
+  --ombre-carte: 0 0.5rem 1.5rem var(--couleur-ombre);
+  --largeur-formulaire: 48rem;
+  --largeur-fiche: 58rem;
+  --largeur-tuile: 12rem;
+}
+
+
+
+
+
+html {
+  background-color: var(--couleur-fond-html);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--couleur-texte);
+  background:
+    radial-gradient(circle at top left, var(--couleur-halo), transparent 38rem),
+    linear-gradient(
+      135deg,
+      var(--couleur-fond-1) 0%,
+      var(--couleur-fond-2) 52%,
+      var(--couleur-fond-3) 100%
+    );
+  background-attachment: fixed;
+}
+
+.title,
+.content h1,
+.content h2 {
+  color: var(--couleur-titre) !important;
+}
+
+.subtitle,
+.content p,
+.label {
+  color: var(--couleur-texte-doux) !important;
+}
+
+.navbar {
+  background-color: var(--couleur-surface);
+  box-shadow: var(--ombre-douce);
+}
+
+.navbar-item,
+.navbar-item strong {
+  color: var(--couleur-texte-discret);
+}
+
+.navbar-item.is-active {
+  color: var(--couleur-primaire-texte);
+  background-color: var(--couleur-primaire-claire);
+}
+
+.box,
+.table {
+  background-color: var(--couleur-surface);
+  box-shadow: var(--ombre-carte);
+}
+
+.table td,
+.table th {
+  color: var(--couleur-texte);
+  border-color: var(--couleur-bordure);
+}
+
+.table thead th {
+  color: var(--couleur-primaire-texte);
+  background-color: var(--couleur-primaire-claire);
+}
+
+.button.is-link {
+  color: var(--couleur-sur-primaire);
+  background-color: var(--couleur-primaire);
+}
+
+.button.is-link:hover,
+.button.is-link:focus {
+  color: var(--couleur-sur-primaire);
+  background-color: var(--couleur-primaire-fonce);
+}
+
+.tag.is-success {
+  color: var(--couleur-succes-texte);
+  background-color: var(--couleur-succes-fond);
+}
+
+.tag.is-info {
+  color: var(--couleur-info-texte);
+  background-color: var(--couleur-info-fond);
+}
+
+.app-main {
+  min-height: calc(100vh - 12rem);
+}
+
+.country-flag {
+  width: 4rem;
+  height: 2.75rem;
+  object-fit: cover;
+  border: 1px solid var(--couleur-bordure-image);
+}
+
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.form-card {
+  max-width: var(--largeur-formulaire);
+  margin-inline: auto;
+}
+
+.notification ul {
+  margin-top: 0.5rem;
+  margin-left: 1.25rem;
+  list-style: disc;
+}
+
+.country-sheet {
+  max-width: var(--largeur-fiche);
+}
+
+.country-flag-large {
+  width: 8rem;
+  height: 5.5rem;
+}
+
+.country-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--largeur-tuile), 1fr));
+  gap: 1rem;
+}
+
+.country-details > div {
+  padding: 1rem;
+  background-color: var(--couleur-surface-douce);
+  border-radius: var(--rayon-petit);
+}
+
+.country-details dt {
+  margin-bottom: 0.25rem;
+  color: var(--couleur-texte-discret);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.country-details dd {
+  color: var(--couleur-texte);
+  font-size: 1.05rem;
+}
+
+.country-comment {
+  color: var(--couleur-texte);
+  white-space: pre-line;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--largeur-tuile), 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  padding: 1.5rem;
+  background-color: var(--couleur-surface);
+  border-left: 0.35rem solid var(--couleur-accent);
+  border-radius: var(--rayon-petit);
+  box-shadow: var(--ombre-carte);
+}
+
+.stat-label {
+  margin-bottom: 0.5rem;
+  color: var(--couleur-texte-discret);
+  font-weight: 700;
+}
+
+.stat-value {
+  color: var(--couleur-titre);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.stat-highlight {
+  color: var(--couleur-primaire);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+.stat-highlight span {
+  color: var(--couleur-texte-discret);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Barres de répartition (statistiques) */
+.progress.is-link {
+  background-color: var(--couleur-primaire-claire);
+}
+
+.progress.is-link::-webkit-progress-bar {
+  background-color: var(--couleur-primaire-claire);
+}
+
+.progress.is-link::-webkit-progress-value {
+  background-color: var(--couleur-primaire);
+}
+
+.progress.is-link::-moz-progress-bar {
+  background-color: var(--couleur-primaire);
+}

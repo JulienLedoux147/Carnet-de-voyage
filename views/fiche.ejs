@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= titre %> | Carnet de voyage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <%- include("partials/navbar", { pageActive: "" }) %>
+
+    <main class="section app-main">
+      <article class="container country-sheet">
+        <% if (messageSucces) { %>
+          <div class="notification is-success" role="status">
+            <%= messageSucces %>
+          </div>
+        <% } %>
+
+        <% if (avertissementApi) { %>
+          <div class="notification is-warning" role="status">
+            <%= avertissementApi %>
+          </div>
+        <% } %>
+
+        <div class="box">
+          <div class="is-flex is-align-items-center mb-5">
+            <% if (pays.drapeau_url) { %>
+              <img
+                class="country-flag country-flag-large mr-5"
+                src="<%= pays.drapeau_url %>"
+                alt="Drapeau de <%= pays.nom %>"
+              >
+            <% } %>
+            <div>
+              <h1 class="title mb-2"><%= pays.nom %></h1>
+              <p class="subtitle is-6 mb-0"><%= pays.code_cca3 %></p>
+            </div>
+          </div>
+
+          <dl class="country-details">
+            <div>
+              <dt>Région</dt>
+              <dd><%= pays.region || "Non disponible" %></dd>
+            </div>
+            <div>
+              <dt>Capitale</dt>
+              <dd><%= pays.capitale || "Non disponible" %></dd>
+            </div>
+            <div>
+              <dt>Population</dt>
+              <dd><%= Number(pays.population || 0).toLocaleString("fr-CA") %></dd>
+            </div>
+            <div>
+              <dt>Statut</dt>
+              <dd>
+                <span class="tag <%= pays.statut === 'visite' ? 'is-success' : 'is-info' %>">
+                  <%= pays.statut === "visite" ? "Visité" : "À visiter" %>
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt>Date de visite</dt>
+              <dd><%= pays.date_visite || "Non indiquée" %></dd>
+            </div>
+            <div>
+              <dt>Note</dt>
+              <dd><%= pays.note ? `${pays.note}/5` : "Non noté" %></dd>
+            </div>
+          </dl>
+
+          <section class="mt-6" aria-labelledby="titre-commentaire">
+            <h2 class="title is-4" id="titre-commentaire">Commentaire</h2>
+            <p class="country-comment"><%= pays.commentaire || "Aucun commentaire pour ce pays." %></p>
+          </section>
+
+          <div class="is-flex is-flex-wrap-wrap is-gap-2 mt-6">
+            <a class="button" href="/">Retour au carnet</a>
+            <a class="button is-link" href="/pays/<%= pays.id %>/modifier">Modifier</a>
+            <form
+              class="delete-country-form"
+              method="post"
+              action="/pays/<%= pays.id %>/supprimer"
+              data-country-name="<%= pays.nom %>"
+            >
+          <!-- data-country-name va etre utilisé dans fiche.js qui listen le boutton Supprimer -->
+              <button class="button is-danger" type="submit">Supprimer</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+    <script src="/js/fiche.js"></script>
+  </body>
+</html>

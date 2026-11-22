@@ -1,0 +1,30 @@
+# Dépendances
+node_modules/
+ 
+# Variables d'environnement (ne jamais versionner les secrets)
+.env
+.env.*
+!.env.example
+ 
+# Base de données SQLite
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+ 
+# Journaux
+logs/
+*.log
+npm-debug.log*
+ 
+# Fichiers générés
+coverage/
+dist/
+.cache/
+ 
+# Éditeurs et systèmes d'exploitation
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

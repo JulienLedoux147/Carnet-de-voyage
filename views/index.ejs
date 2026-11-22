@@ -1,0 +1,145 @@
+<!--
+
+EJS
+
+%= x % : Évaluer et afficher (ex: condition if avec '?')
+%- x % : Affiche une variable brut
+% code % : Exécute du JS sans rien afficher
+
+locals.maVariable || 'Valeur par défaut'
+ou ??
+
+-->
+
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= titre %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <%- include("partials/navbar", { pageActive: "accueil" }) %>
+
+    <main class="section app-main">
+      <div class="container">
+        <% if (messageSucces) { %>
+          <div class="notification is-success" role="status">
+            <%= messageSucces %>
+          </div>
+        <% } %>
+
+        <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+          <div>
+            <h1 class="title"><%= titre %></h1>
+            <p class="subtitle"><%= pays.length %> pays affiché<%= pays.length > 1 ? "s" : "" %></p>
+          </div>
+          <a class="button is-link" href="/pays/nouveau">Ajouter un pays</a>
+        </div>
+
+        <form class="box" method="get" action="/" role="search">
+          <div class="columns is-align-items-flex-end">
+            <div class="column">
+              <label class="label" for="q">Rechercher</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="q"
+                  name="q"
+                  type="search"
+                  value="<%= filtres.q %>"
+                  placeholder="Nom ou code CCA3"
+                >
+              </div>
+            </div>
+
+            <div class="column is-one-quarter">
+              <label class="label" for="statut">Statut</label>
+              <div class="select is-fullwidth">
+                <select id="statut" name="statut">
+                  <option value="">Tous les pays</option>
+                  <option value="visite" <%= filtres.statut === "visite" ? "selected" : "" %>>Visités</option>
+                  <option value="a_visiter" <%= filtres.statut === "a_visiter" ? "selected" : "" %>>À visiter</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="column is-narrow">
+              <button class="button is-link" type="submit">Filtrer</button>
+              <% if (filtres.q || filtres.statut) { %>
+                <a class="button is-light" href="/">Réinitialiser</a>
+              <% } %>
+            </div>
+          </div>
+        </form>
+
+        <% if (pays.length === 0) { %>
+          <section class="box empty-state" aria-labelledby="aucun-pays">
+            <h2 class="title is-4" id="aucun-pays">Aucun pays trouvé</h2>
+            <p class="mb-4">
+              <%= filtres.q || filtres.statut
+                ? "Modifiez les critères de recherche ou réinitialisez les filtres."
+                : "Commencez votre carnet en ajoutant votre premier pays." %>
+            </p>
+            <% if (!filtres.q && !filtres.statut) { %>
+              <a class="button is-link" href="/pays/nouveau">Ajouter un pays</a>
+            <% } %>
+          </section>
+        <% } else { %>
+          <div class="table-container">
+            <table class="table is-fullwidth is-hoverable">
+              <thead>
+                <tr>
+                  <th>Pays</th>
+                  <th>Région</th>
+                  <th>Statut</th>
+                  <th>Note</th>
+                  <th><span class="is-sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (const item of pays) { %>
+                  <tr>
+                    <td>
+                      <div class="is-flex is-align-items-center">
+                        <% if (item.drapeau_url) { %>
+                          <img
+                            class="country-flag mr-4"
+                            src="<%= item.drapeau_url %>"
+                            alt=""
+                            loading="lazy"
+                          >
+                        <% } %>
+                        <div>
+                          <strong><%= item.nom %></strong>
+                          <div class="is-size-7 has-text-grey"><%= item.code_cca3 %></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><%= item.region || "—" %></td>
+                    <td>
+                      <span class="tag <%= item.statut === 'visite' ? 'is-success' : 'is-info' %>">
+                        <%= item.statut === "visite" ? "Visité" : "À visiter" %>
+                      </span>
+                    </td>
+                    <td><%= item.note ? `${item.note}/5` : "—" %></td>
+                    <td class="has-text-right">
+                      <a class="button is-small is-link is-light" href="/pays/<%= item.id %>">
+                        Voir la fiche de <%= item.nom %>
+                      </a>
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </div>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+  </body>
+</html>

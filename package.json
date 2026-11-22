@@ -1,0 +1,40 @@
+{
+  "name": "carnet-de-voyage",
+  "version": "1.0.0",
+  "description": "TP 1 du cours 420-3D2-MA APPLICATIONS WEB 1 groupe 00001",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon main.js",
+    "start": "node main.js",
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback",
+    "db:status": "knex migrate:status",
+    "api:check": "node scripts/verifier-rest-countries.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienLedoux147/Carnet-de-voyage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JulienLedoux147/Carnet-de-voyage/issues"
+  },
+  "homepage": "https://github.com/JulienLedoux147/Carnet-de-voyage#readme",
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "knex": "^3.3.0",
+    "method-override": "^3.0.0",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "allowScripts": {
+    "sqlite3@6.0.1": true
+  }
+}

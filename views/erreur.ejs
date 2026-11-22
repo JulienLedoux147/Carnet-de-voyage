@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= titre %> | Carnet de voyage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <%- include("partials/navbar", { pageActive: "" }) %>
+    <main class="section app-main">
+      <div class="container content">
+        <h1><%= titre %></h1>
+        <p><%= message %></p>
+        <a class="button is-link" href="/">Retour au carnet</a>
+      </div>
+    </main>
+    <script src="/js/navbar.js"></script>
+  </body>
+</html>

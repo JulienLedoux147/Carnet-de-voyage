@@ -1,0 +1,40 @@
+<!-- Inclus dans toutes les pages via include() -->
+<nav class="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/"><strong>Carnet de voyage</strong></a>
+      <button
+        type="button"
+        class="navbar-burger"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="menu-principal"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div id="menu-principal" class="navbar-menu">
+      <div class="navbar-start">
+        <a
+          class="navbar-item <%= pageActive === 'accueil' ? 'is-active' : '' %>"
+          href="/"
+          <%- pageActive === 'accueil' ? 'aria-current="page"' : '' %>
+        >Accueil</a>
+        <a
+          class="navbar-item <%= pageActive === 'ajouter' ? 'is-active' : '' %>"
+          href="/pays/nouveau"
+          <%- pageActive === 'ajouter' ? 'aria-current="page"' : '' %>
+        >Ajouter</a>
+        <a
+          class="navbar-item <%= pageActive === 'statistiques' ? 'is-active' : '' %>"
+          href="/statistiques"
+          <%- pageActive === 'statistiques' ? 'aria-current="page"' : '' %>
+        >Statistiques</a>
+      </div>
+    </div>
+  </div>
+</nav>
