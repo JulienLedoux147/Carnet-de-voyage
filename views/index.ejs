@@ -24,7 +24,8 @@ ou ??
   <body>
     <%- include("partials/navbar", { pageActive: "accueil" }) %>
 
-    <main class="section app-main">
+    <%# Accessibilité : tabindex="-1" permet au lien d’évitement de déplacer le focus vers le contenu. %>
+    <main id="contenu-principal" class="section app-main" tabindex="-1">
       <div class="container">
         <% if (messageSucces) { %>
           <div class="notification is-success" role="status">
@@ -40,7 +41,8 @@ ou ??
           <a class="button is-link" href="/pays/nouveau">Ajouter un pays</a>
         </div>
 
-        <form class="box" method="get" action="/" role="search">
+        <%# Accessibilité : le lecteur d’écran peut atteindre directement la zone de recherche. %>
+        <form class="box" method="get" action="/" role="search" aria-label="Rechercher dans le carnet">
           <div class="columns is-align-items-flex-end">
             <div class="column">
               <label class="label" for="q">Rechercher</label>
@@ -91,21 +93,24 @@ ou ??
         <% } else { %>
           <div class="table-container">
             <table class="table is-fullwidth is-hoverable">
+              <%# Accessibilité : la légende nomme le tableau et scope relie chaque cellule à ses en-têtes. %>
+              <caption class="is-sr-only">Résultats du carnet de voyage</caption>
               <thead>
                 <tr>
-                  <th>Pays</th>
-                  <th>Région</th>
-                  <th>Statut</th>
-                  <th>Note</th>
-                  <th><span class="is-sr-only">Actions</span></th>
+                  <th scope="col">Pays</th>
+                  <th scope="col">Région</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Note</th>
+                  <th scope="col"><span class="is-sr-only">Actions</span></th>
                 </tr>
               </thead>
               <tbody>
                 <% for (const item of pays) { %>
                   <tr>
-                    <td>
+                    <th scope="row">
                       <div class="is-flex is-align-items-center">
                         <% if (item.drapeau_url) { %>
+                          <%# Accessibilité : alt="" évite de répéter le nom du pays affiché à côté du drapeau. %>
                           <img
                             class="country-flag mr-4"
                             src="<%= item.drapeau_url %>"
@@ -118,14 +123,14 @@ ou ??
                           <div class="is-size-7 has-text-grey"><%= item.code_cca3 %></div>
                         </div>
                       </div>
-                    </td>
+                    </th>
                     <td><%= item.region || "—" %></td>
                     <td>
                       <span class="tag <%= item.statut === 'visite' ? 'is-success' : 'is-info' %>">
                         <%= item.statut === "visite" ? "Visité" : "À visiter" %>
                       </span>
                     </td>
-                    <td><%= item.note ? `${item.note}/5` : "—" %></td>
+                    <td><%= item.note ? `${item.note} sur 5` : "Non noté" %></td>
                     <td class="has-text-right">
                       <a class="button is-small is-link is-light" href="/pays/<%= item.id %>">
                         Voir la fiche de <%= item.nom %>

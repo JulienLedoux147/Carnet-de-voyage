@@ -10,7 +10,8 @@
   <body>
     <%- include("partials/navbar", { pageActive: "statistiques" }) %>
 
-    <main class="section app-main">
+    <%# Accessibilité : tabindex="-1" permet au lien d’évitement de déplacer le focus vers le contenu. %>
+    <main id="contenu-principal" class="section app-main" tabindex="-1">
       <div class="container">
         <h1 class="title"><%= titre %></h1>
         <p class="subtitle">Un aperçu de vos voyages et de vos projets.</p>
@@ -38,7 +39,7 @@
             <article class="stat-card">
               <p class="stat-label">Note moyenne</p>
               <p class="stat-value">
-                <%= resume.noteMoyenne === null ? "—" : `${resume.noteMoyenne.toFixed(1)}/5` %>
+                <%= resume.noteMoyenne === null ? "Aucune note" : `${resume.noteMoyenne.toLocaleString("fr-CA", { maximumFractionDigits: 1 })} sur 5` %>
               </p>
             </article>
           </section>
@@ -57,21 +58,25 @@
 
             <div class="table-container">
               <table class="table is-fullwidth">
+                <%# Accessibilité : la légende et les en-têtes aident à se repérer en lisant le tableau. %>
+                <caption class="is-sr-only">Nombre et pourcentage de pays par région</caption>
                 <thead>
                   <tr>
-                    <th>Région</th>
-                    <th>Nombre de pays</th>
-                    <th>Part du carnet</th>
+                    <th scope="col">Région</th>
+                    <th scope="col">Nombre de pays</th>
+                    <th scope="col">Part du carnet</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% for (const region of regions) { %>
                     <tr>
-                      <td><%= region.nom %></td>
+                      <th scope="row"><%= region.nom %></th>
                       <td><%= region.nombre %></td>
                       <td>
+                        <%# Accessibilité : le pourcentage est lu en texte. La barre visuelle est ignorée pour éviter une répétition. %>
                         <progress
                           class="progress is-link mb-1"
+                          aria-hidden="true"
                           value="<%= region.nombre %>"
                           max="<%= resume.total %>"
                         ><%= region.pourcentage %>%</progress>

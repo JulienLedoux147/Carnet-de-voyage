@@ -1,5 +1,7 @@
 const champCode = document.querySelector("#code_cca3");
 const champNom = document.querySelector("#nom");
+// Accessibilité : après une erreur, place le focus sur le titre du résumé.
+document.querySelector("#titre-erreurs")?.focus();
 
 // Si #code_cca3 est un <select>, remplit automatiquement #nom avec le data-nom de l’option choisie
 if (champCode instanceof HTMLSelectElement && champNom) {

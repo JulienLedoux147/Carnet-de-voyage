@@ -9,7 +9,8 @@
   </head>
   <body>
     <%- include("partials/navbar", { pageActive: "" }) %>
-    <main class="section app-main">
+    <%# Accessibilité : tabindex="-1" permet au lien d’évitement de déplacer le focus vers le contenu. %>
+    <main id="contenu-principal" class="section app-main" tabindex="-1">
       <div class="container content">
         <h1><%= titre %></h1>
         <p><%= message %></p>

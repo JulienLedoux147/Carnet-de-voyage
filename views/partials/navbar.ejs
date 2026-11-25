@@ -1,14 +1,18 @@
 <!-- Inclus dans toutes les pages via include() -->
-<nav class="navbar" role="navigation" aria-label="Navigation principale">
+<%# Accessibilité : premier lien au clavier pour passer directement au contenu. %>
+<a class="lien-evitement" href="#contenu-principal">Aller au contenu principal</a>
+<nav class="navbar" aria-label="Navigation principale">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" href="/"><strong>Carnet de voyage</strong></a>
+      <%# Accessibilité : le bouton nomme le menu, indique son état et référence la zone contrôlée. %>
       <button
         type="button"
         class="navbar-burger"
         aria-label="Ouvrir le menu"
         aria-expanded="false"
         aria-controls="menu-principal"
+        hidden
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -17,8 +21,9 @@
       </button>
     </div>
 
-    <div id="menu-principal" class="navbar-menu">
+    <div id="menu-principal" class="navbar-menu is-active">
       <div class="navbar-start">
+        <%# Accessibilité : aria-current permet au lecteur d’écran d’annoncer la page active. %>
         <a
           class="navbar-item <%= pageActive === 'accueil' ? 'is-active' : '' %>"
           href="/"

@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= titre %> | Carnet de voyage</title>
+    <title><%= erreurs.length ? "Erreurs dans le formulaire – " : "" %><%= titre %> | Carnet de voyage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
     <%- include("partials/navbar", { pageActive: mode === "ajouter" ? "ajouter" : "" }) %>
-    <main class="section app-main">
+    <%# Accessibilité : tabindex="-1" permet au lien d’évitement de déplacer le focus vers le contenu. %>
+    <main id="contenu-principal" class="section app-main" tabindex="-1">
       <div class="container">
         <div class="form-card box">
           <h1 class="title"><%= titre %></h1>
@@ -22,23 +23,32 @@
           <% } %>
 
           <% if (erreurs.length > 0) { %>
-            <div class="notification is-danger" role="alert" aria-labelledby="titre-erreurs">
-              <p class="has-text-weight-bold" id="titre-erreurs">Corrigez les erreurs suivantes :</p>
+            <%# Accessibilité : le résumé reçoit le focus et chaque message mène au champ à corriger. %>
+            <section class="notification is-danger" aria-labelledby="titre-erreurs">
+              <h2 class="has-text-weight-bold" id="titre-erreurs" tabindex="-1">Corrigez les erreurs suivantes</h2>
               <ul>
                 <% for (const erreur of erreurs) { %>
-                  <li><%= erreur %></li>
+                  <li id="erreur-<%= erreur.champ %>"><a href="#<%= erreur.champ %>"><%= erreur.message %></a></li>
                 <% } %>
               </ul>
-            </div>
+            </section>
           <% } %>
 
+          <%
+            // Accessibilité : aria-invalid signale le champ en erreur et aria-describedby relie l’aide et le message au champ.
+            const champsInvalides = new Set(erreurs.map((erreur) => erreur.champ));
+            const description = (champ, aide = "") =>
+              [aide, champsInvalides.has(champ) ? `erreur-${champ}` : ""].filter(Boolean).join(" ");
+          %>
           <form method="post" action="<%= mode === 'ajouter' ? '/pays' : `/pays/${pays.id}` %>">
             <div class="field">
               <label class="label" for="code_cca3">Pays <span aria-hidden="true">*</span></label>
 
               <% if (paysDisponibles.length > 0 && mode === "ajouter") { %>
                 <div class="control select is-fullwidth">
-                  <select id="code_cca3" name="code_cca3" required>
+                  <select id="code_cca3" name="code_cca3" required
+                    aria-describedby="<%= description('code_cca3', 'aide-code') %>"
+                    aria-invalid="<%= champsInvalides.has('code_cca3') %>">
                     <option value="">Choisissez un pays</option>
                     <% for (const option of paysDisponibles) { %>
                       <option
@@ -49,13 +59,15 @@
                     <% } %>
                   </select>
                 </div>
-                <p class="help">La liste provient de REST Countries.</p>
+                <p class="help" id="aide-code">La liste provient de REST Countries.</p>
               <% } else { %>
                 <div class="control">
                   <input
                     class="input"
                     id="code_cca3"
                     name="code_cca3"
+                    aria-describedby="<%= description('code_cca3', 'aide-code') %>"
+                    aria-invalid="<%= champsInvalides.has('code_cca3') %>"
                     type="text"
                     value="<%= pays.code_cca3 || '' %>"
                     minlength="3"
@@ -66,7 +78,7 @@
                     required
                   >
                 </div>
-                <p class="help">Code ISO composé de trois lettres, par exemple CAN.</p>
+                <p class="help" id="aide-code">Code ISO composé de trois lettres, par exemple CAN.</p>
               <% } %>
             </div>
 
@@ -77,6 +89,8 @@
                   class="input"
                   id="nom"
                   name="nom"
+                  aria-describedby="<%= description('nom', 'aide-nom') %>"
+                  aria-invalid="<%= champsInvalides.has('nom') %>"
                   type="text"
                   value="<%= pays.nom || '' %>"
                   maxlength="255"
@@ -85,16 +99,19 @@
                 >
               </div>
               <% if (mode === "modifier") { %>
-                <p class="help">Le pays et son code officiel ne peuvent pas être modifiés.</p>
+                <p class="help" id="aide-nom">Le pays et son code officiel sont en lecture seule.</p>
               <% } else if (paysDisponibles.length > 0) { %>
-                <p class="help">Le nom est rempli automatiquement après le choix du pays.</p>
+                <p class="help" id="aide-nom">Le nom est rempli automatiquement après le choix du pays.</p>
+              <% } else { %>
+                <p class="help" id="aide-nom">Saisissez le nom associé au code ISO.</p>
               <% } %>
             </div>
 
             <div class="field">
               <label class="label" for="statut">Statut <span aria-hidden="true">*</span></label>
               <div class="control select is-fullwidth">
-                <select id="statut" name="statut" required>
+                <select id="statut" name="statut" required
+                  <% if (champsInvalides.has("statut")) { %>aria-invalid="true" aria-describedby="erreur-statut"<% } %>>
                   <option value="">Choisissez un statut</option>
                   <option value="visite" <%= pays.statut === "visite" ? "selected" : "" %>>Visité</option>
                   <option value="a_visiter" <%= pays.statut === "a_visiter" ? "selected" : "" %>>À visiter</option>
@@ -111,6 +128,7 @@
                       class="input"
                       id="date_visite"
                       name="date_visite"
+                      <% if (champsInvalides.has("date_visite")) { %>aria-invalid="true" aria-describedby="erreur-date_visite"<% } %>
                       type="date"
                       value="<%= pays.date_visite || '' %>"
                     >
@@ -126,6 +144,7 @@
                       class="input"
                       id="note"
                       name="note"
+                      <% if (champsInvalides.has("note")) { %>aria-invalid="true" aria-describedby="erreur-note"<% } %>
                       type="number"
                       value="<%= pays.note || '' %>"
                       min="1"
@@ -144,11 +163,13 @@
                   class="textarea"
                   id="commentaire"
                   name="commentaire"
+                  aria-describedby="<%= description('commentaire', 'aide-commentaire') %>"
+                  aria-invalid="<%= champsInvalides.has('commentaire') %>"
                   maxlength="2000"
                   rows="5"
                 ><%= pays.commentaire || '' %></textarea>
               </div>
-              <p class="help">Maximum 2000 caractères.</p>
+              <p class="help" id="aide-commentaire">Maximum 2000 caractères.</p>
             </div>
 
             <div class="field is-grouped mt-5">
