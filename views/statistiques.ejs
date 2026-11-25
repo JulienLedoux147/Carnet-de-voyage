@@ -83,10 +83,34 @@
               </table>
             </div>
           </section>
+
+          <section class="box" aria-labelledby="Conseiller IA">
+            <div class="is-flex is-align-items-center is-flex-wrap-wrap"></div>
+              <h2 class="title is-4 mb-0 mr-4" id="titre-IA" id="IA">Conseiller IA</h2>
+              <p class="has-text-grey">
+                  Découvrez de nouvelles destinations grâce à des recommandations
+                  personnalisées selon vos voyages et vos notes.
+              </p>
+              <button
+                class="button is-light mt-5"
+                type="button"
+                id="bouton-IA"
+                aria-pressed="false"
+              >
+                <span>Générer des recommandations</span>
+              </button>
+            </>
+
+            <div id="recommandations-IA" class="mt-5" aria-live="polite">
+                <!-- Les recommandations de l'IA seront affichées ici -->
+            </div>
+
+          </section>
         <% } %>
       </div>
     </main>
 
     <script src="/js/navbar.js"></script>
+    <script src="/js/statistiques.js"></script>
   </body>
 </html>
