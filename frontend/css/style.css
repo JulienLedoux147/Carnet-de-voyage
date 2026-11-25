@@ -88,6 +88,52 @@ body {
   color: var(--couleur-texte-discret);
 }
 
+.navbar-burger[hidden] {
+  display: none;
+}
+
+.navbar-burger {
+  color: var(--couleur-texte);
+}
+
+@media (max-width: 1023px) {
+  .navbar-menu {
+    background-color: #fff;
+  }
+}
+
+/* Accessibilité : le lien d’évitement devient visible lorsqu’il reçoit le focus. */
+.lien-evitement {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  color: #fff;
+  background-color: var(--couleur-primaire-fonce);
+}
+
+.lien-evitement:not(:focus) {
+  clip-path: inset(50%);
+}
+
+.lien-evitement:focus {
+  color: #fff;
+}
+
+/* Accessibilité : le contour montre quel élément est sélectionné au clavier. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid #134e4a;
+  outline-offset: 3px;
+}
+
+.app-main :is(a, button, input, select, textarea):focus-visible,
+.navbar :is(a, button):focus-visible {
+  outline: 3px solid #134e4a;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #fff;
+}
+
 .navbar-item.is-active {
   color: var(--couleur-primaire-texte);
   background-color: var(--couleur-primaire-claire);

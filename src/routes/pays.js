@@ -75,7 +75,7 @@ router.post("/", async (req, res, next) => {
         .first();
 
       if (paysExistant) {
-        erreurs.push("Ce pays se trouve déjà dans le carnet.");
+        erreurs.push({ champ: "code_cca3", message: "Ce pays se trouve déjà dans le carnet." });
       }
     }
 
@@ -93,9 +93,10 @@ router.post("/", async (req, res, next) => {
     const nom = donneesOfficielles?.nom ?? saisie.nom;
 
     if (erreurs.length === 0 && !nom) {
-      erreurs.push(
-        "Le nom du pays est obligatoire lorsque REST Countries est indisponible.",
-      );
+      erreurs.push({
+        champ: "nom",
+        message: "Le nom du pays est obligatoire lorsque REST Countries est indisponible.",
+      });
     }
 
     if (erreurs.length > 0) {
@@ -127,7 +128,7 @@ router.post("/", async (req, res, next) => {
     if (erreur.code === "SQLITE_CONSTRAINT") {
       return await afficherFormulaire(res, {
         pays: saisie,
-        erreurs: ["Ce pays se trouve déjà dans le carnet."],
+        erreurs: [{ champ: "code_cca3", message: "Ce pays se trouve déjà dans le carnet." }],
         avertissementApi,
         statutHttp: 400,
       });

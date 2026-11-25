@@ -10,7 +10,8 @@
   <body>
     <%- include("partials/navbar", { pageActive: "" }) %>
 
-    <main class="section app-main">
+    <%# Accessibilité : tabindex="-1" permet au lien d’évitement de déplacer le focus vers le contenu. %>
+    <main id="contenu-principal" class="section app-main" tabindex="-1">
       <article class="container country-sheet">
         <% if (messageSucces) { %>
           <div class="notification is-success" role="status">
@@ -66,7 +67,7 @@
             </div>
             <div>
               <dt>Note</dt>
-              <dd><%= pays.note ? `${pays.note}/5` : "Non noté" %></dd>
+              <dd><%= pays.note ? `${pays.note} sur 5` : "Non noté" %></dd>
             </div>
           </dl>
 
@@ -76,8 +77,9 @@
           </section>
 
           <div class="is-flex is-flex-wrap-wrap is-gap-2 mt-6">
+            <%# Accessibilité : is-sr-only ajoute le nom du pays au libellé lu à voix haute. %>
             <a class="button" href="/">Retour au carnet</a>
-            <a class="button is-link" href="/pays/<%= pays.id %>/modifier">Modifier</a>
+            <a class="button is-link" href="/pays/<%= pays.id %>/modifier">Modifier <span class="is-sr-only"><%= pays.nom %></span></a>
             <form
               class="delete-country-form"
               method="post"
@@ -85,7 +87,7 @@
               data-country-name="<%= pays.nom %>"
             >
           <!-- data-country-name va etre utilisé dans fiche.js qui listen le boutton Supprimer -->
-              <button class="button is-danger" type="submit">Supprimer</button>
+              <button class="button is-danger" type="submit">Supprimer <span class="is-sr-only"><%= pays.nom %></span></button>
             </form>
           </div>
         </div>

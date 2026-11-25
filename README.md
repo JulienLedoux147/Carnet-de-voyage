@@ -88,3 +88,16 @@ npm run db:status
 npm run db:migrate
 npm run db:rollback
 ```
+
+## Accessibilité
+
+Les pages proposent un lien « Aller au contenu principal » dès la première
+tabulation. Sur mobile, le menu s’ouvre avec Entrée ou Espace et se ferme avec
+Échap. Les tableaux ont des en-têtes de ligne et de colonne. Après une erreur
+de validation, le résumé reçoit le focus et chaque message mène au champ à
+corriger.
+
+Pour vérifier avec un lecteur d’écran comme NVDA ou VoiceOver, essayer le lien
+d’évitement, naviguer dans les tableaux du carnet et des statistiques, puis
+soumettre un formulaire invalide. Vérifier que le lecteur d’écran annonce le
+résumé d’erreurs et le message associé au champ sélectionné.
