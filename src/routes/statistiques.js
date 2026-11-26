@@ -1,9 +1,11 @@
 import { Router } from "express";
 import db from "../db/connexion.js";
+import { obtenirRecommandations } from "../services/ia.js";
 
 const router = Router();
 
 // GET /statistiques : statistiques du carnet
+//données brutes directement prisent de la db
 router.get("/", async (req, res, next) => {
   try {
     const resumeBrut = await db("pays")
@@ -35,6 +37,7 @@ router.get("/", async (req, res, next) => {
       .orderBy("nombre", "desc")
       .orderBy("region", "asc");
 
+    //données brutes stockés dans les clefs individuels d'un dictionnaire.
     const resume = {
       total: Number(resumeBrut.total ?? 0),
       visites: Number(resumeBrut.visites ?? 0),
@@ -64,6 +67,33 @@ router.get("/", async (req, res, next) => {
     });
   } catch (erreur) {
     return next(erreur);
+  }
+});
+
+// POST /statistiques/recommandations : recommandations de l'IA (appelée par statistiques.js)
+// Les données viennent de la db (jamais du navigateur) et la clé API reste côté serveur.
+router.post("/recommandations", async (req, res) => {
+  try {
+    const tousLesPays = await db("pays").select("nom", "region", "statut", "note", "commentaire");
+    const visites = tousLesPays.filter((p) => p.statut === "visite");
+ 
+    if (visites.length === 0) {
+      return res.status(400).json({
+        erreur: "Marquez au moins un pays comme visité pour obtenir des recommandations.",
+      });
+    }
+ 
+    const recommandations = await obtenirRecommandations(
+      visites,
+      tousLesPays.map((p) => p.nom),
+    );
+ 
+    return res.json({ recommandations });
+  } catch (erreur) {
+    console.error(erreur);
+    return res.status(502).json({
+      erreur: "Impossible d’obtenir les recommandations pour le moment.",
+    });
   }
 });
 
